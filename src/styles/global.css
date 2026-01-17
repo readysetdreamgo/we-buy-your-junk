@@ -1,0 +1,255 @@
+@import "tailwindcss";
+
+/* -------------------------------------------------------------------------- */
+/* 1. Design System & Variables */
+/* -------------------------------------------------------------------------- */
+@theme {
+  --color-primary: #8a3d22; /* Maximum contrast terracotta */
+  --color-primary-dark: #6b2d18;
+  --color-secondary: #050505; /* Deep rich black */
+  --color-accent: #243d2b; 
+  --color-background: #ffffff; 
+  --color-surface: #f5f3ef; 
+  --color-surface-dark: #0a0a0a;
+  --color-text: #050505; 
+  --color-text-muted: #45403b; 
+  --color-cream: #faf8f4;
+  --color-warm-gray: #a8a298; 
+  
+  --font-display: 'Oswald', sans-serif;
+  --font-body: 'Source Sans 3', sans-serif;
+
+  --section-spacing: clamp(10rem, 18vw, 22rem); /* Increased for maximum editorial impact */
+  --container-max: 1300px;
+  --radius-soft: 1.5rem;
+  --radius-large: 3.5rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. Base Styles */
+/* -------------------------------------------------------------------------- */
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+}
+
+.display-title {
+  font-size: clamp(4rem, 12vw, 7.5rem);
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  font-weight: 900;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 3. Controlled Grid Breaking & Layout */
+/* -------------------------------------------------------------------------- */
+.container {
+  width: 92%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.lg\:overlap-left { margin-left: -18%; position: relative; z-index: 10; }
+.lg\:overlap-right { margin-right: -18%; position: relative; z-index: 10; }
+.lg\:break-grid-right { transform: translateX(12%); }
+
+/* -------------------------------------------------------------------------- */
+/* 4. Interactive Components */
+/* -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem 3rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  border-radius: 9999px;
+  transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.pill-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.875rem 2.25rem;
+  border: 1px solid var(--color-warm-gray);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--color-secondary);
+  transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  background: transparent;
+}
+
+.pill-link:hover {
+  background: var(--color-secondary);
+  color: white;
+  border-color: var(--color-secondary);
+  padding-right: 2.75rem;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card-tactile {
+  background: white;
+  transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.card-tactile:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.06);
+  border-color: var(--color-primary);
+}
+
+.list-item-tactile {
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  border-left: 2px solid var(--color-warm-gray);
+}
+
+.list-item-tactile:hover {
+  padding-left: 2.5rem;
+  border-left-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.img-hover-zoom {
+  overflow: hidden;
+  background-color: var(--color-surface);
+  border-radius: inherit;
+  position: relative;
+}
+
+.img-hover-zoom::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-secondary);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+
+.img-hover-zoom:hover::after {
+  opacity: 0.05;
+}
+
+.img-hover-zoom img {
+  transition: transform 2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.img-hover-zoom:hover img {
+  transform: scale(1.1);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 5. Horizontal Scroll Section */
+/* -------------------------------------------------------------------------- */
+.horizontal-scroll-section {
+  overflow: hidden;
+}
+
+.horizontal-scroll-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.horizontal-scroll-wrapper {
+  will-change: transform;
+}
+
+.horizontal-panel {
+  will-change: transform;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 6. Animations */
+/* -------------------------------------------------------------------------- */
+.reveal-text {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  display: block;
+}
+
+[data-animate] {
+  will-change: transform, opacity;
+}
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* -------------------------------------------------------------------------- */
+/* 6. Custom Cursor */
+/* -------------------------------------------------------------------------- */
+.custom-cursor {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-secondary);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 10000;
+  transition: transform 0.1s ease-out, background-color 0.3s ease;
+}
+
+.custom-cursor-outline {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--color-warm-gray);
+  border-radius: 50%;
+  position: fixed;
+  top: -14px;
+  left: -14px;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.25s ease-out, border-color 0.3s ease;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 7. Accessibility */
+/* -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+}

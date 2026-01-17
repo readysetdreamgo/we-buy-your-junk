@@ -1,0 +1,80 @@
+---
+import '../styles/global.css';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import StructuredData from '../components/StructuredData.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+}
+
+const { 
+  title, 
+  description, 
+  image = '/og-image.jpg',
+  type = 'website'
+} = Astro.props;
+
+const siteUrl = 'https://www.webuyyourjunk.net';
+const canonical = Astro.url.href;
+const ogImage = image.startsWith('http') ? image : `${siteUrl}${image}`;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content="We Buy Your Junk LLC" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    
+    <!-- Local Business Schema -->
+    <StructuredData />
+  </head>
+  <body class="bg-background text-text selection:bg-primary selection:text-white overflow-x-hidden">
+    
+    <!-- Scroll Progress Indicator -->
+    <div id="scroll-progress" class="fixed top-0 left-0 w-full h-1 bg-primary/10 z-[1001] origin-left scale-x-0">
+      <div class="w-full h-full bg-primary shadow-[0_0_10px_var(--color-primary)]"></div>
+    </div>
+
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="custom-cursor-outline" id="cursor-outline"></div>
+    <div class="grain-overlay"></div>
+    <Navigation />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+    
+    <script>
+      import '../scripts/animations.js';
+    </script>
+  </body>
+</html>

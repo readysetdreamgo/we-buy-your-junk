@@ -1,0 +1,191 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const values = [
+  { title: 'Faith-Driven', desc: 'Our operations are guided by Christian principles—honesty, respect, and stewardship.', num: '01' },
+  { title: 'Three Generations', desc: 'Family-owned and managed since 2008. We treat our clients like neighbors.', num: '02' },
+  { title: 'Jackson Roots', desc: 'We are deeply invested in the growth and cleanliness of our local community.', num: '03' },
+  { title: 'Resource Stewardship', desc: 'Industrial-scale recycling that protects our environment for the future.', num: '04' },
+];
+
+const milestones = [
+  { year: '2008', event: 'Founded in Jackson, Michigan' },
+  { year: '2012', event: 'Facility expansion to 5+ acres' },
+  { year: '2016', event: 'Launch of Used Auto Parts division' },
+  { year: '2024', event: 'Modernized certified weighing systems' },
+];
+---
+
+<Layout 
+  title="About Us | Family-Owned Since 2008 | We Buy Your Junk LLC | Jackson, MI"
+  description="Learn about We Buy Your Junk LLC, a family-owned scrap metal business in Jackson, Michigan. In business since 2008 with over 100 years' combined experience."
+>
+  <!-- Page Header - High Contrast Editorial -->
+  <section class="pt-48 pb-24 border-b border-warm-gray bg-background relative overflow-hidden">
+    <!-- Vertical Detail -->
+    <div class="absolute left-12 top-1/2 -translate-y-1/2 hidden xl:block origin-left -rotate-90">
+      <p class="text-[10px] font-black uppercase tracking-[0.5em] text-primary/30 whitespace-nowrap">Local Heritage — Jackson County Recycling</p>
+    </div>
+
+    <div class="container relative z-10">
+      <div class="grid lg:grid-cols-12 gap-12 items-end">
+        <div class="lg:col-span-8">
+          <div class="flex items-center gap-4 mb-6" data-animate="fade-up">
+            <div class="w-12 h-px bg-primary/40"></div>
+            <p class="text-primary text-xs tracking-[0.4em] uppercase font-bold">
+              Jackson, Michigan — Since 2008
+            </p>
+          </div>
+          <h1 class="display-title mb-0" data-animate="fade-up" data-delay="0.1">
+            <span class="reveal-text block">Family Owned</span>
+            <span class="reveal-text block lg:pl-24 text-primary italic">Faith Driven</span>
+          </h1>
+        </div>
+        <div class="lg:col-span-4 lg:text-right" data-animate="fade-left" data-delay="0.2">
+          <p class="text-text-muted text-lg leading-relaxed max-w-sm ml-auto font-medium">
+            Nearly two decades of providing <span class="text-secondary font-bold">honest scales</span> and fair value to our local community.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Narrative Section - Overlapping Elements -->
+  <section class="py-48 bg-cream overflow-hidden relative">
+    <!-- Large Background Typography -->
+    <div class="absolute right-0 top-24 opacity-[0.03] select-none pointer-events-none hidden lg:block">
+      <p class="text-[20vw] font-black leading-none uppercase italic">Heritage</p>
+    </div>
+
+    <div class="container relative z-10">
+      <div class="grid lg:grid-cols-12 gap-20 items-center">
+        <!-- Offset Image -->
+        <div class="lg:col-span-6 relative" data-animate="fade-right">
+          <div class="img-hover-zoom aspect-square rounded-[3rem] bg-secondary overflow-hidden shadow-2xl relative z-10 border-8 border-white">
+            <div class="absolute inset-0 bg-secondary/20 mix-blend-multiply"></div>
+            <!-- Placeholder -->
+            <div class="w-full h-full flex items-center justify-center text-white/5 font-black text-6xl italic uppercase text-center p-12 leading-none">
+              Jackson <br/>Facility
+            </div>
+          </div>
+          <!-- Grid Breaking Accent -->
+          <div class="absolute -bottom-12 -right-8 w-48 h-48 border-b-2 border-r-2 border-primary/30 rounded-br-[4rem] hidden lg:block"></div>
+        </div>
+
+        <!-- Narrative Content -->
+        <div class="lg:col-span-6 lg:pl-12" data-animate="fade-left">
+          <p class="text-primary font-black text-[10px] tracking-[0.4em] uppercase mb-6">Our Legacy</p>
+          <h2 class="text-5xl md:text-7xl font-display uppercase tracking-tighter leading-none mb-12">
+            <span class="reveal-text block">A Legacy of</span>
+            <span class="reveal-text block text-primary italic">Integrity</span>
+          </h2>
+          <div class="space-y-8 text-text-muted text-lg leading-relaxed font-medium">
+            <p>
+              What started as a modest local operation has grown into Jackson County's most reliable destination for metal recycling and quality salvaged parts. 
+            </p>
+            <p>
+              Founded in 2008, <span class="text-secondary font-bold">We Buy Your Junk LLC</span> was built on a simple premise: honor the industrial heritage of our city while providing a service that rewards our neighbors for their stewardship.
+            </p>
+            <p class="border-l-4 border-primary pl-8 py-2 italic bg-white/50 rounded-r-2xl text-secondary">
+              "Junking for Jesus in Jackson" isn't just a tagline—it defines the ethical standard we bring to every transaction, every day.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values - Structured Grid -->
+  <section class="py-48 bg-secondary text-white relative overflow-hidden">
+    <!-- Large Background Typography -->
+    <div class="absolute left-0 bottom-24 opacity-[0.05] select-none pointer-events-none hidden lg:block">
+      <p class="text-[20vw] font-black leading-none uppercase italic">Principles</p>
+    </div>
+
+    <div class="container relative z-10">
+      <div class="max-w-3xl mb-24" data-animate="fade-up">
+        <p class="text-primary font-black text-[10px] tracking-[0.4em] uppercase mb-6">Commitment</p>
+        <h2 class="text-5xl md:text-7xl font-display uppercase tracking-tighter leading-none mb-8">
+          The <span class="text-primary italic">Foundation</span>
+        </h2>
+        <div class="w-20 h-1 bg-primary mb-10"></div>
+        <p class="text-white/60 text-lg font-medium leading-relaxed">
+          These core values inform how we manage our yard, train our team, and serve our clientele.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12" data-stagger>
+        {values.map((v, i) => (
+          <div class="group">
+            <span class="text-primary font-black italic text-2xl mb-6 block opacity-40 group-hover:opacity-100 transition-opacity">{v.num}</span>
+            <h3 class="text-xl font-display uppercase mb-4 tracking-wide">{v.title}</h3>
+            <p class="text-white/80 text-sm leading-relaxed border-t border-white/10 pt-6 font-medium">
+              {v.desc}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline - Asymmetric Layout -->
+  <section class="py-40 bg-background overflow-hidden">
+    <div class="container">
+      <div class="grid lg:grid-cols-12 gap-20">
+        <div class="lg:col-span-4" data-animate="fade-right">
+          <h2 class="text-5xl font-display uppercase tracking-tighter leading-none mb-8">
+            The <br/><span class="text-primary italic">Journey</span>
+          </h2>
+          <p class="text-text-muted text-lg mb-12">
+            Milestones that shaped our growth from a local startup to a regional industry leader.
+          </p>
+          <!-- Small decorative image -->
+          <div class="img-hover-zoom aspect-[4/3] rounded-2xl bg-surface shadow-lg hidden lg:block">
+             <div class="w-full h-full flex items-center justify-center text-secondary/5 font-bold uppercase tracking-widest text-xs">Archives</div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-8 lg:pl-12">
+          <div class="space-y-16" data-stagger>
+            {milestones.map((m, i) => (
+              <div class="grid md:grid-cols-12 gap-8 items-baseline group list-item-tactile">
+                <div class="md:col-span-2 text-primary font-display text-4xl italic font-black group-hover:translate-x-2 transition-transform duration-500">
+                  {m.year}
+                </div>
+                <div class="md:col-span-10 border-b border-warm-gray pb-12">
+                  <p class="text-xl font-medium text-secondary uppercase tracking-tight">
+                    {m.event}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-40 bg-secondary relative overflow-hidden">
+    <div class="container relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-6xl md:text-8xl font-display uppercase tracking-tight text-white mb-12 leading-[0.85]" data-animate="scale-in">
+          Experience <br/><span class="text-primary italic">The Yard</span> for Yourself.
+        </h2>
+        <p class="text-white/50 text-xl mb-16 max-w-2xl mx-auto leading-relaxed" data-animate="fade-up" data-delay="0.2">
+          Stop by our facility on Industrial Dr to meet our team and see how we're redefining the recycling industry in Jackson.
+        </p>
+        
+        <div class="flex flex-wrap justify-center gap-8" data-animate="fade-up" data-delay="0.3">
+          <a href="/contact" class="group relative inline-flex items-center gap-4 bg-primary text-white px-12 py-6 rounded-full text-sm font-black tracking-widest uppercase transition-all hover:bg-white hover:text-secondary overflow-hidden">
+            <span class="relative z-10">Get Directions</span>
+            <span class="relative z-10">→</span>
+          </a>
+          <a href="tel:+15175551234" class="pill-link text-white border-white/20 hover:border-primary">
+            Call the Yard <span class="arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

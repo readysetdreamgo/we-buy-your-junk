@@ -1,0 +1,387 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import ArticleStructuredData from '../../components/ArticleStructuredData.astro';
+import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
+
+export async function getStaticPaths() {
+  const insights = await getCollection('insights', ({ data }) => !data.draft);
+  return insights.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+// Get related articles (same category, excluding current)
+const allInsights = await getCollection('insights', ({ data }) => !data.draft);
+const relatedInsights = allInsights
+  .filter(i => i.slug !== entry.slug && i.data.category === entry.data.category)
+  .slice(0, 2);
+
+// If not enough related by category, fill with recent articles
+if (relatedInsights.length < 2) {
+  const moreInsights = allInsights
+    .filter(i => i.slug !== entry.slug && !relatedInsights.find(r => r.slug === i.slug))
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+    .slice(0, 2 - relatedInsights.length);
+  relatedInsights.push(...moreInsights);
+}
+
+// Format date helper
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+function formatShortDate(date: Date): string {
+  return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+}
+
+const siteUrl = 'https://www.webuyyourjunk.net';
+const articleUrl = `${siteUrl}/insights/${entry.slug}`;
+---
+
+<Layout 
+  title={`${entry.data.title} | We Buy Your Junk LLC`}
+  description={entry.data.description}
+>
+  <!-- Article Structured Data for SEO -->
+  <ArticleStructuredData
+    slot="head"
+    title={entry.data.title}
+    description={entry.data.description}
+    image={entry.data.image}
+    datePublished={entry.data.pubDate.toISOString()}
+    dateModified={entry.data.updatedDate?.toISOString()}
+    author={entry.data.author}
+    authorRole={entry.data.authorRole}
+    url={articleUrl}
+  />
+  
+  <!-- Breadcrumb Structured Data -->
+  <BreadcrumbStructuredData
+    slot="head"
+    items={[
+      { name: 'Home', url: '/' },
+      { name: 'Insights', url: '/insights' },
+      { name: entry.data.title, url: `/insights/${entry.slug}` }
+    ]}
+  />
+
+  <!-- Article Header -->
+  <article class="pt-40 pb-24">
+    <!-- Hero Section -->
+    <header class="container mb-16">
+      <div class="max-w-4xl mx-auto">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-3 text-sm mb-8" data-animate="fade-up" aria-label="Breadcrumb">
+          <a href="/insights" class="text-text-muted hover:text-primary transition-colors">Insights</a>
+          <span class="text-warm-gray">/</span>
+          <span class="text-primary font-bold">{entry.data.category}</span>
+        </nav>
+
+        <!-- Category Badge -->
+        <div class="mb-6" data-animate="fade-up" data-delay="0.05">
+          <span class="bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full">
+            {entry.data.category}
+          </span>
+        </div>
+
+        <!-- Title -->
+        <h1 class="text-5xl md:text-7xl font-display uppercase tracking-tighter leading-[0.9] mb-8" data-animate="fade-up" data-delay="0.1">
+          {entry.data.title}
+        </h1>
+
+        <!-- Excerpt -->
+        <p class="text-xl md:text-2xl text-text-muted leading-relaxed mb-10" data-animate="fade-up" data-delay="0.15">
+          {entry.data.description}
+        </p>
+
+        <!-- Meta -->
+        <div class="flex flex-wrap items-center gap-6 pt-8 border-t border-warm-gray" data-animate="fade-up" data-delay="0.2">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-white font-display text-lg">
+              {entry.data.author.split(' ').map(n => n[0]).join('')}
+            </div>
+            <div>
+              <p class="font-bold text-secondary">{entry.data.author}</p>
+              <p class="text-sm text-text-muted">{entry.data.authorRole}</p>
+            </div>
+          </div>
+          <div class="w-px h-8 bg-warm-gray hidden sm:block"></div>
+          <div class="flex items-center gap-6 text-sm text-text-muted">
+            <time datetime={entry.data.pubDate.toISOString()}>{formatDate(entry.data.pubDate)}</time>
+            <span>·</span>
+            <span>{entry.data.readTime}</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Featured Image Placeholder -->
+    <div class="container mb-16" data-animate="scale-in" data-delay="0.25">
+      <div class="max-w-5xl mx-auto">
+        <div class="aspect-[21/9] bg-cream rounded-[2.5rem] overflow-hidden relative">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <p class="text-secondary/10 font-black text-6xl md:text-8xl italic uppercase">{entry.data.category}</p>
+          </div>
+          <!-- Decorative Elements -->
+          <div class="absolute top-8 left-8">
+            <span class="bg-primary text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full">
+              Featured
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <div class="container">
+      <div class="max-w-3xl mx-auto">
+        <div class="prose prose-lg" data-animate="fade-up" data-delay="0.3">
+          <Content />
+        </div>
+      </div>
+    </div>
+
+    <!-- Tags -->
+    {entry.data.tags && entry.data.tags.length > 0 && (
+      <div class="container mt-12">
+        <div class="max-w-3xl mx-auto">
+          <div class="flex flex-wrap gap-2" data-animate="fade-up">
+            {entry.data.tags.map((tag: string) => (
+              <span class="bg-cream text-text-muted text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    )}
+
+    <!-- Share & Navigation -->
+    <div class="container mt-16">
+      <div class="max-w-3xl mx-auto">
+        <div class="flex flex-wrap items-center justify-between gap-6 pt-10 border-t border-warm-gray" data-animate="fade-up">
+          <div class="flex items-center gap-4">
+            <span class="text-sm font-bold text-text-muted uppercase tracking-widest">Share:</span>
+            <div class="flex gap-3">
+              <a 
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(entry.data.title)}&url=${encodeURIComponent(articleUrl)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-10 h-10 bg-cream rounded-full flex items-center justify-center text-secondary hover:bg-primary hover:text-white transition-colors"
+                aria-label="Share on Twitter"
+              >
+                <span class="text-sm">𝕏</span>
+              </a>
+              <a 
+                href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(articleUrl)}&title=${encodeURIComponent(entry.data.title)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-10 h-10 bg-cream rounded-full flex items-center justify-center text-secondary hover:bg-primary hover:text-white transition-colors"
+                aria-label="Share on LinkedIn"
+              >
+                <span class="text-sm">in</span>
+              </a>
+              <a 
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-10 h-10 bg-cream rounded-full flex items-center justify-center text-secondary hover:bg-primary hover:text-white transition-colors"
+                aria-label="Share on Facebook"
+              >
+                <span class="text-sm">f</span>
+              </a>
+            </div>
+          </div>
+          <a href="/insights" class="group inline-flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-secondary hover:text-primary transition-colors">
+            <span class="group-hover:-translate-x-2 transition-transform">←</span>
+            <span>Back to Insights</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Related Articles -->
+  {relatedInsights.length > 0 && (
+    <section class="py-24 bg-cream">
+      <div class="container">
+        <div class="flex items-end justify-between mb-12">
+          <div>
+            <p class="text-primary font-black text-[10px] tracking-[0.4em] uppercase mb-4" data-animate="fade-up">Keep Reading</p>
+            <h2 class="text-4xl md:text-5xl font-display uppercase tracking-tighter leading-none" data-animate="fade-up" data-delay="0.1">
+              Related <span class="text-primary italic">Articles</span>
+            </h2>
+          </div>
+          <a href="/insights" class="hidden md:inline-flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-secondary hover:text-primary transition-colors" data-animate="fade-left">
+            <span>View All</span>
+            <span>→</span>
+          </a>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8" data-stagger>
+          {relatedInsights.map((related) => (
+            <a href={`/insights/${related.slug}`} class="group bg-white rounded-[2rem] overflow-hidden card-tactile">
+              <div class="p-10 flex flex-col min-h-[280px]">
+                <div class="flex items-center justify-between mb-6">
+                  <span class="bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full">
+                    {related.data.category}
+                  </span>
+                  <span class="text-text-muted text-xs">{related.data.readTime}</span>
+                </div>
+
+                <h3 class="text-2xl font-display uppercase leading-tight mb-4 group-hover:text-primary transition-colors">
+                  {related.data.title}
+                </h3>
+
+                <p class="text-text-muted leading-relaxed flex-1 mb-6">
+                  {related.data.description}
+                </p>
+
+                <div class="flex items-center justify-between pt-6 border-t border-warm-gray mt-auto">
+                  <span class="text-xs font-bold text-text-muted">{formatShortDate(related.data.pubDate)}</span>
+                  <span class="flex items-center gap-2 text-secondary font-black text-[10px] uppercase tracking-widest group-hover:text-primary transition-colors">
+                    <span class="border-b border-secondary group-hover:border-primary pb-1">Read</span>
+                    <span class="group-hover:translate-x-2 transition-transform duration-500">→</span>
+                  </span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Newsletter CTA -->
+  <section class="py-24 bg-secondary">
+    <div class="container">
+      <div class="max-w-3xl mx-auto text-center">
+        <p class="text-primary font-black text-[10px] tracking-[0.4em] uppercase mb-4" data-animate="fade-up">Stay Informed</p>
+        <h2 class="text-4xl md:text-5xl font-display uppercase tracking-tighter text-white leading-tight mb-6" data-animate="fade-up" data-delay="0.1">
+          Get Market Updates <span class="text-primary italic">Weekly</span>
+        </h2>
+        <p class="text-white/60 text-lg leading-relaxed mb-10" data-animate="fade-up" data-delay="0.15">
+          Join 500+ Jackson-area scrappers who receive our weekly market insights and tips.
+        </p>
+        <form class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto" data-animate="fade-up" data-delay="0.2">
+          <input 
+            type="email" 
+            placeholder="Enter your email" 
+            class="flex-1 bg-white/10 border border-white/20 rounded-full px-6 py-4 text-white placeholder:text-white/40 focus:border-primary focus:outline-none transition-colors"
+            required
+          />
+          <button type="submit" class="bg-primary text-white px-8 py-4 rounded-full text-sm font-black uppercase tracking-widest hover:bg-white hover:text-secondary transition-colors">
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style is:global>
+  /* Article Prose Styles */
+  .prose {
+    color: var(--color-text);
+    line-height: 1.8;
+  }
+
+  .prose > *:first-child {
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--color-warm-gray);
+  }
+
+  .prose p {
+    margin-bottom: 1.5rem;
+  }
+
+  .prose h2 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-secondary);
+  }
+
+  .prose h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--color-secondary);
+  }
+
+  .prose ul, .prose ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .prose ul {
+    list-style-type: disc;
+  }
+
+  .prose ol {
+    list-style-type: decimal;
+  }
+
+  .prose li {
+    margin-bottom: 0.75rem;
+    padding-left: 0.5rem;
+  }
+
+  .prose li strong {
+    color: var(--color-secondary);
+  }
+
+  .prose blockquote {
+    margin: 2.5rem 0;
+    padding: 2rem 2.5rem;
+    background: var(--color-cream);
+    border-left: 4px solid var(--color-primary);
+    border-radius: 0 1.5rem 1.5rem 0;
+  }
+
+  .prose blockquote p {
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--color-secondary);
+    margin-bottom: 0;
+  }
+
+  .prose a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.3s ease;
+  }
+
+  .prose a:hover {
+    color: var(--color-secondary);
+  }
+
+  .prose strong {
+    font-weight: 700;
+    color: var(--color-secondary);
+  }
+
+  .prose hr {
+    border: none;
+    border-top: 1px solid var(--color-warm-gray);
+    margin: 3rem 0;
+  }
+</style>

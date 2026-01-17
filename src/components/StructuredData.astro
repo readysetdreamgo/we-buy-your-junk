@@ -1,0 +1,99 @@
+---
+const localBusiness = {
+  "@context": "https://schema.org",
+  "@type": "RecyclingCenter",
+  "name": "We Buy Your Junk LLC",
+  "description": "Family-owned scrap metal recycling and junk car buying business serving Jackson County, Michigan since 2008. Competitive prices for copper, brass, aluminum, and all recyclable metals.",
+  "url": "https://www.webuyyourjunk.net",
+  "telephone": "+1-517-555-1234",
+  "email": "info@webuyyourjunk.net",
+  "foundingDate": "2008",
+  "slogan": "Junking for Jesus in Jackson",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "123 Industrial Dr",
+    "addressLocality": "Jackson",
+    "addressRegion": "MI",
+    "postalCode": "49201",
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 42.2458,
+    "longitude": -84.4013
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "17:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Saturday",
+      "opens": "08:00",
+      "closes": "12:00"
+    }
+  ],
+  "priceRange": "$$",
+  "areaServed": [
+    {
+      "@type": "City",
+      "name": "Jackson",
+      "containedInPlace": {
+        "@type": "State",
+        "name": "Michigan"
+      }
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Jackson County"
+    }
+  ],
+  "serviceArea": {
+    "@type": "GeoCircle",
+    "geoMidpoint": {
+      "@type": "GeoCoordinates",
+      "latitude": 42.2458,
+      "longitude": -84.4013
+    },
+    "geoRadius": "30 mi"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Scrap Metal Services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Scrap Metal Buying",
+          "description": "We buy copper, brass, aluminum, steel, and all recyclable metals at competitive prices."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Junk Car Removal",
+          "description": "Free pickup and cash payment for junk vehicles, running or not."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Used Auto Parts",
+          "description": "Quality used auto parts at affordable prices."
+        }
+      }
+    ]
+  },
+  "sameAs": [
+    "https://facebook.com/webuyyourjunk"
+  ]
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(localBusiness)} />

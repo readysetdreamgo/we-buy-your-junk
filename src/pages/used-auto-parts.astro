@@ -1,0 +1,182 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const categories = [
+  { name: 'Power & Drive', desc: 'Complete engines, transmissions, and differentials. Performance tested.', num: '01' },
+  { name: 'Exterior Shell', desc: 'Doors, fenders, hoods, and bumpers. Grade-A condition salvage.', num: '02' },
+  { name: 'Electrical Systems', desc: 'Alternators, starters, and ECUs. Verified functionality.', num: '03' },
+  { name: 'Interior Cabin', desc: 'Premium seating, dashboards, and rare trim components.', num: '04' },
+  { name: 'Chassis & Wheels', desc: 'Suspension, steering racks, and alloy wheel sets.', num: '05' },
+];
+
+const process = [
+  { step: '01', title: 'Catalog Inquiry', desc: 'Call with your VIN or year, make, and model. We check live inventory.' },
+  { step: '02', title: 'Quality Verification', desc: 'We confirm the part condition and pull it from the shelf for inspection.' },
+  { step: '03', title: 'Immediate Payout', desc: 'Pick up your part and save up to 80% compared to new retail pricing.' },
+];
+---
+
+<Layout 
+  title="Used Auto Parts | Quality & Affordable | We Buy Your Junk LLC | Jackson, MI"
+  description="Quality used auto parts in Jackson, Michigan. Save 50-80% on engines, transmissions, body parts, and more. Tested and inspected. Visit our yard today."
+>
+  <!-- Page Header - High Contrast -->
+  <section class="pt-48 pb-24 border-b border-warm-gray bg-background relative overflow-hidden">
+    <!-- Vertical Detail -->
+    <div class="absolute left-12 top-1/2 -translate-y-1/2 hidden xl:block origin-left -rotate-90">
+      <p class="text-[10px] font-black uppercase tracking-[0.5em] text-primary/30 whitespace-nowrap">Salvage Operations — Quality Verified Stock</p>
+    </div>
+
+    <div class="container relative z-10">
+      <div class="grid lg:grid-cols-12 gap-12 items-end">
+        <div class="lg:col-span-8">
+          <div class="flex items-center gap-4 mb-6" data-animate="fade-up">
+            <div class="w-12 h-px bg-primary/40"></div>
+            <p class="text-primary text-xs tracking-[0.4em] uppercase font-bold">
+              Salvage Specialists
+            </p>
+          </div>
+          <h1 class="display-title mb-0" data-animate="fade-up" data-delay="0.1">
+            <span class="reveal-text block">Premium</span>
+            <span class="reveal-text block lg:pl-24 text-primary italic">Components</span>
+          </h1>
+        </div>
+        <div class="lg:col-span-4 lg:text-right" data-animate="fade-left" data-delay="0.2">
+          <p class="text-text-muted text-lg leading-relaxed max-w-sm ml-auto font-medium">
+            Skip the dealer markup. We salvage <span class="text-secondary font-bold">high-quality</span> components from retired vehicles to keep you on the road for less.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Banner - Broken Grid -->
+  <section class="py-24 bg-secondary text-white overflow-hidden">
+    <div class="container">
+      <div class="grid md:grid-cols-4 gap-12">
+        <div class="border-l border-white/10 pl-8" data-animate="fade-up">
+          <p class="text-4xl font-display text-primary mb-2 italic">80%</p>
+          <p class="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">Max Savings</p>
+        </div>
+        <div class="border-l border-white/10 pl-8 md:mt-12" data-animate="fade-up" data-delay="0.1">
+          <p class="text-4xl font-display text-primary mb-2 italic">100%</p>
+          <p class="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">Tested Stock</p>
+        </div>
+        <div class="border-l border-white/10 pl-8" data-animate="fade-up" data-delay="0.2">
+          <p class="text-4xl font-display text-primary mb-2 italic">5k+</p>
+          <p class="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">In-Stock Parts</p>
+        </div>
+        <div class="border-l border-white/10 pl-8 md:mt-12" data-animate="fade-up" data-delay="0.3">
+          <p class="text-4xl font-display text-primary mb-2 italic">Eco</p>
+          <p class="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">Certified Green</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories - Asymmetric Content -->
+  <section class="py-48 bg-cream relative overflow-hidden">
+    <!-- Large Background Typography -->
+    <div class="absolute right-0 top-24 opacity-[0.03] select-none pointer-events-none hidden lg:block">
+      <p class="text-[20vw] font-black leading-none uppercase italic">Inventory</p>
+    </div>
+
+    <div class="container relative z-10">
+      <div class="grid lg:grid-cols-12 gap-20 items-start">
+        <div class="lg:col-span-5 relative" data-animate="fade-right">
+          <div class="img-hover-zoom aspect-[4/5] rounded-[3rem] bg-surface-dark overflow-hidden shadow-2xl relative z-10 border-8 border-white">
+            <div class="absolute inset-0 bg-secondary/20 mix-blend-multiply"></div>
+            <div class="w-full h-full flex items-center justify-center text-white/5 font-black text-6xl italic uppercase text-center p-12 leading-none">
+              Stock <br/>Vault
+            </div>
+          </div>
+          <!-- Grid Breaking Accent -->
+          <div class="absolute -top-12 -left-8 w-48 h-48 border-t-2 border-l-2 border-primary/30 rounded-tl-[4rem] hidden lg:block"></div>
+        </div>
+
+        <div class="lg:col-span-7">
+          <p class="text-primary font-black text-[10px] tracking-[0.4em] uppercase mb-6">Salvage Catalog</p>
+          <h2 class="text-5xl md:text-7xl font-display uppercase tracking-tighter leading-none mb-16" data-animate="fade-left">
+            <span class="reveal-text block">Organized</span>
+            <span class="reveal-text block text-primary italic">Inventory</span>
+          </h2>
+          
+          <div class="space-y-4" data-stagger>
+            {categories.map((cat, i) => (
+              <div class="group flex items-center justify-between py-8 border-b border-warm-gray hover:border-primary transition-colors duration-500 list-item-tactile">
+                <div class="flex items-center gap-12">
+                  <span class="text-xs font-black text-primary/40 group-hover:text-primary transition-colors italic">{cat.num}</span>
+                  <div>
+                    <h3 class="text-2xl font-display uppercase group-hover:translate-x-2 transition-transform duration-500 leading-none">{cat.name}</h3>
+                    <p class="text-text-muted text-sm mt-4 max-w-md font-medium leading-relaxed">{cat.desc}</p>
+                  </div>
+                </div>
+                <span class="text-secondary/20 group-hover:text-primary transition-colors text-2xl group-hover:translate-x-2 transition-transform duration-500">→</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process - Numerical Narrative -->
+  <section class="py-48 bg-background overflow-hidden relative">
+    <!-- Large Background Typography -->
+    <div class="absolute left-0 bottom-24 opacity-[0.03] select-none pointer-events-none hidden lg:block">
+      <p class="text-[20vw] font-black leading-none uppercase italic">Process</p>
+    </div>
+
+    <div class="container relative z-10">
+      <div class="max-w-2xl mb-24" data-animate="fade-up">
+        <p class="text-primary font-black text-[10px] tracking-[0.4em] uppercase mb-6">Efficiency</p>
+        <h2 class="text-5xl md:text-7xl font-display uppercase tracking-tighter leading-none mb-8">
+          The <span class="text-primary italic">Acquisition</span>
+        </h2>
+        <div class="w-20 h-1 bg-primary mb-10"></div>
+        <p class="text-text-muted text-lg font-medium leading-relaxed">
+          Finding the right part shouldn't be a struggle. We've streamlined our salvaging process for maximum efficiency.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-16 relative" data-stagger>
+        <!-- Connecting Line -->
+        <div class="absolute top-12 left-0 w-full h-px bg-warm-gray hidden lg:block"></div>
+        
+        {process.map((item, i) => (
+          <div class="relative z-10">
+            <div class="w-24 h-24 rounded-full bg-white border-2 border-warm-gray flex items-center justify-center text-primary font-display font-black text-4xl mb-10 group-hover:border-primary transition-colors duration-500 shadow-xl">
+              {item.step}
+            </div>
+            <h3 class="text-2xl font-display uppercase mb-6 leading-none">{item.title}</h3>
+            <p class="text-text-muted leading-relaxed max-w-xs font-medium">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA - High Contrast -->
+  <section class="py-40 bg-secondary relative overflow-hidden">
+    <div class="container relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-6xl md:text-8xl font-display uppercase tracking-tight text-white mb-12 leading-[0.85]" data-animate="scale-in">
+          Need a <span class="text-primary italic">Part?</span> <br/>We have the Stock.
+        </h2>
+        <p class="text-white/50 text-xl mb-16 max-w-2xl mx-auto leading-relaxed" data-animate="fade-up" data-delay="0.2">
+          Call us with your vehicle information. Our inventory team will provide an immediate quote and availability status.
+        </p>
+        
+        <div class="flex flex-wrap justify-center gap-8" data-animate="fade-up" data-delay="0.3">
+          <a href="tel:+15175551234" class="group relative inline-flex items-center gap-4 bg-primary text-white px-12 py-6 rounded-full text-sm font-black tracking-widest uppercase transition-all hover:bg-white hover:text-secondary overflow-hidden">
+            <span class="relative z-10">Call (517) 555-1234</span>
+            <span class="relative z-10">→</span>
+          </a>
+          <a href="/contact" class="pill-link text-white border-white/20 hover:border-primary">
+            Visit the Yard <span class="arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

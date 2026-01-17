@@ -1,0 +1,55 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  datePublished: string;
+  dateModified?: string;
+  author: string;
+  authorRole?: string;
+  url: string;
+}
+
+const { 
+  title, 
+  description, 
+  image, 
+  datePublished, 
+  dateModified, 
+  author,
+  authorRole,
+  url 
+} = Astro.props;
+
+const siteUrl = 'https://www.webuyyourjunk.net';
+const ogImage = image ? (image.startsWith('http') ? image : `${siteUrl}${image}`) : `${siteUrl}/og-image.jpg`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description: description,
+  image: ogImage,
+  datePublished: datePublished,
+  dateModified: dateModified || datePublished,
+  author: {
+    '@type': 'Person',
+    name: author,
+    jobTitle: authorRole,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'We Buy Your Junk LLC',
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteUrl}/logo.png`,
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': url,
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

@@ -1,0 +1,311 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// Get all published insights, sorted by date
+const allInsights = await getCollection('insights', ({ data }) => !data.draft);
+const sortedInsights = allInsights.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const featuredInsight = sortedInsights.find(i => i.data.featured);
+const regularInsights = sortedInsights.filter(i => !i.data.featured || i.slug !== featuredInsight?.slug);
+
+// Format date helper
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+}
+---
+
+<Layout 
+  title="Insights | We Buy Your Junk LLC | Scrap Metal News & Tips"
+  description="Expert insights on scrap metal prices, recycling tips, and industry news from Jackson, Michigan's trusted recycling center."
+>
+  <!-- Hero Section -->
+  <section class="pt-40 pb-24 bg-cream relative overflow-hidden">
+    <!-- Large Background Typography -->
+    <div class="absolute right-0 top-20 opacity-[0.03] select-none pointer-events-none hidden lg:block">
+      <p class="text-[18vw] font-black leading-none uppercase italic">Insights</p>
+    </div>
+
+    <div class="container relative z-10">
+      <div class="grid lg:grid-cols-12 gap-12 items-end">
+        <div class="lg:col-span-7">
+          <div class="overflow-hidden mb-6 flex items-center gap-4">
+            <div class="w-12 h-px bg-primary/40"></div>
+            <p class="text-primary text-xs tracking-[0.4em] uppercase font-bold" data-animate="fade-up">
+              Knowledge Center
+            </p>
+          </div>
+          
+          <h1 class="text-6xl md:text-8xl font-display uppercase tracking-tighter leading-[0.85] mb-8" data-animate="fade-up" data-delay="0.1">
+            Industry <br/><span class="text-primary italic">Insights</span>
+          </h1>
+          
+          <p class="text-text-muted text-xl leading-relaxed max-w-xl" data-animate="fade-up" data-delay="0.2">
+            Market updates, recycling tips, and expert knowledge from Jackson's most trusted scrap yard. Stay informed, maximize your returns.
+          </p>
+        </div>
+
+        <div class="lg:col-span-5 flex justify-end" data-animate="fade-left" data-delay="0.3">
+          <div class="flex gap-8 items-center">
+            <div class="text-right">
+              <p class="text-5xl font-display text-primary leading-none">{sortedInsights.length}</p>
+              <p class="text-xs font-black uppercase tracking-widest text-text-muted mt-2">Articles</p>
+            </div>
+            <div class="w-px h-16 bg-warm-gray"></div>
+            <div class="text-right">
+              <p class="text-5xl font-display text-primary leading-none">15</p>
+              <p class="text-xs font-black uppercase tracking-widest text-text-muted mt-2">Years Exp.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Article -->
+  {featuredInsight && (
+    <section class="py-24 bg-background relative overflow-hidden">
+      <div class="container">
+        <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+          <!-- Featured Image/Placeholder -->
+          <div class="lg:col-span-7 relative" data-animate="fade-right">
+            <a href={`/insights/${featuredInsight.slug}`} class="block aspect-[4/3] bg-secondary rounded-[2.5rem] overflow-hidden relative group">
+              <div class="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/50 to-transparent z-10"></div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <p class="text-white/10 font-black text-6xl italic uppercase">Featured</p>
+              </div>
+              <!-- Category Badge -->
+              <div class="absolute top-8 left-8 z-20">
+                <span class="bg-primary text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full">
+                  {featuredInsight.data.category}
+                </span>
+              </div>
+              <!-- Content Overlay -->
+              <div class="absolute bottom-0 left-0 right-0 p-10 z-20">
+                <p class="text-white/50 text-sm mb-4">{formatDate(featuredInsight.data.pubDate)} · {featuredInsight.data.readTime}</p>
+                <h2 class="text-4xl md:text-5xl font-display uppercase text-white leading-tight mb-6 group-hover:text-primary transition-colors">
+                  {featuredInsight.data.title}
+                </h2>
+                <p class="text-white/70 text-lg leading-relaxed max-w-xl mb-8">
+                  {featuredInsight.data.description}
+                </p>
+                <span class="inline-flex items-center gap-4 text-white font-black text-xs uppercase tracking-widest group-hover:text-primary transition-colors">
+                  <span class="border-b border-white/30 group-hover:border-primary pb-1">Read Article</span>
+                  <span class="group-hover:translate-x-2 transition-transform">→</span>
+                </span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Side Stats/Info -->
+          <div class="lg:col-span-5 flex flex-col gap-6" data-stagger>
+            <div class="bg-cream rounded-[2rem] p-10 flex-1 flex flex-col justify-between card-tactile">
+              <div>
+                <p class="text-primary font-black text-[10px] tracking-[0.3em] uppercase mb-4">Why Read Our Insights?</p>
+                <h3 class="text-2xl font-display uppercase mb-4 leading-tight">Stay Ahead of the Market</h3>
+                <p class="text-text-muted leading-relaxed">
+                  Metal prices fluctuate daily. Our insights help you time your sales for maximum profit.
+                </p>
+              </div>
+              <div class="mt-8 pt-6 border-t border-warm-gray">
+                <p class="text-xs font-bold text-text-muted uppercase tracking-widest">Updated Weekly</p>
+              </div>
+            </div>
+
+            <div class="bg-primary/10 rounded-[2rem] p-10 card-tactile">
+              <p class="text-primary font-black text-[10px] tracking-[0.3em] uppercase mb-4">Newsletter</p>
+              <h3 class="text-xl font-display uppercase mb-4 leading-tight">Get Insights Delivered</h3>
+              <p class="text-text-muted text-sm leading-relaxed mb-6">
+                Weekly market updates and tips straight to your inbox.
+              </p>
+              <form class="flex gap-3">
+                <input 
+                  type="email" 
+                  placeholder="Your email" 
+                  class="flex-1 bg-white rounded-full px-5 py-3 text-sm border-2 border-transparent focus:border-primary focus:outline-none transition-colors"
+                />
+                <button type="submit" class="bg-primary text-white px-6 py-3 rounded-full text-xs font-black uppercase tracking-widest hover:bg-secondary transition-colors">
+                  Join
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Bento Grid Articles -->
+  <section class="py-24 bg-cream relative overflow-hidden">
+    <!-- Large Background Typography -->
+    <div class="absolute left-0 bottom-20 opacity-[0.03] select-none pointer-events-none hidden lg:block">
+      <p class="text-[15vw] font-black leading-none uppercase italic">Articles</p>
+    </div>
+
+    <div class="container relative z-10">
+      <div class="flex items-end justify-between mb-16">
+        <div>
+          <p class="text-primary font-black text-[10px] tracking-[0.4em] uppercase mb-4" data-animate="fade-up">Browse</p>
+          <h2 class="text-5xl md:text-6xl font-display uppercase tracking-tighter leading-none" data-animate="fade-up" data-delay="0.1">
+            Latest <span class="text-primary italic">Articles</span>
+          </h2>
+        </div>
+        
+        <!-- Category Filter -->
+        <div class="hidden md:flex gap-4" data-animate="fade-left" data-delay="0.2">
+          <button class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest bg-secondary text-white">All</button>
+          <button class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest bg-white text-text-muted hover:bg-secondary hover:text-white transition-colors">Market</button>
+          <button class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest bg-white text-text-muted hover:bg-secondary hover:text-white transition-colors">How-To</button>
+          <button class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest bg-white text-text-muted hover:bg-secondary hover:text-white transition-colors">News</button>
+        </div>
+      </div>
+
+      <!-- Bento Grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" data-stagger>
+        {regularInsights.map((insight, index) => (
+          <a 
+            href={`/insights/${insight.slug}`} 
+            class:list={[
+              "group bg-white rounded-[2rem] overflow-hidden card-tactile relative",
+              index === 0 ? "md:col-span-2 lg:col-span-2" : "",
+              index === 3 ? "lg:row-span-2" : ""
+            ]}
+          >
+            <!-- Card Content -->
+            <div class:list={[
+              "p-10 flex flex-col h-full",
+              index === 3 ? "min-h-[500px]" : "min-h-[300px]"
+            ]}>
+              <!-- Category & Meta -->
+              <div class="flex items-center justify-between mb-6">
+                <span class="bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full">
+                  {insight.data.category}
+                </span>
+                <span class="text-text-muted text-xs">{insight.data.readTime}</span>
+              </div>
+
+              <!-- Title -->
+              <h3 class:list={[
+                "font-display uppercase leading-tight mb-4 group-hover:text-primary transition-colors",
+                index === 0 ? "text-4xl" : index === 3 ? "text-3xl" : "text-2xl"
+              ]}>
+                {insight.data.title}
+              </h3>
+
+              <!-- Excerpt -->
+              <p class="text-text-muted leading-relaxed flex-1 mb-6">
+                {insight.data.description}
+              </p>
+
+              <!-- Footer -->
+              <div class="flex items-center justify-between pt-6 border-t border-warm-gray mt-auto">
+                <span class="text-xs font-bold text-text-muted">{formatDate(insight.data.pubDate)}</span>
+                <span class="flex items-center gap-2 text-secondary font-black text-[10px] uppercase tracking-widest group-hover:text-primary transition-colors">
+                  <span class="border-b border-secondary group-hover:border-primary pb-1">Read</span>
+                  <span class="group-hover:translate-x-2 transition-transform duration-500">→</span>
+                </span>
+              </div>
+            </div>
+
+            <!-- Decorative Corner -->
+            <div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-[3rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Topics Section -->
+  <section class="py-24 bg-secondary relative overflow-hidden">
+    <div class="container">
+      <div class="text-center mb-16">
+        <p class="text-primary font-black text-[10px] tracking-[0.4em] uppercase mb-4" data-animate="fade-up">Explore</p>
+        <h2 class="text-5xl md:text-6xl font-display uppercase tracking-tighter text-white leading-none" data-animate="fade-up" data-delay="0.1">
+          Browse by <span class="text-primary italic">Topic</span>
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" data-stagger>
+        <a href="/insights?category=market" class="group bg-white/5 backdrop-blur-sm rounded-[2rem] p-8 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/10">
+          <div class="text-5xl mb-6">📈</div>
+          <h3 class="text-2xl font-display uppercase text-white mb-3 group-hover:text-primary transition-colors">Market Updates</h3>
+          <p class="text-white/50 text-sm leading-relaxed mb-6">Daily and weekly price movements for all metals.</p>
+          <span class="text-primary text-xs font-black uppercase tracking-widest">View Articles →</span>
+        </a>
+
+        <a href="/insights?category=howto" class="group bg-white/5 backdrop-blur-sm rounded-[2rem] p-8 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/10">
+          <div class="text-5xl mb-6">🔧</div>
+          <h3 class="text-2xl font-display uppercase text-white mb-3 group-hover:text-primary transition-colors">How-To Guides</h3>
+          <p class="text-white/50 text-sm leading-relaxed mb-6">Step-by-step tutorials for sorting and selling.</p>
+          <span class="text-primary text-xs font-black uppercase tracking-widest">View Articles →</span>
+        </a>
+
+        <a href="/insights?category=news" class="group bg-white/5 backdrop-blur-sm rounded-[2rem] p-8 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/10">
+          <div class="text-5xl mb-6">📰</div>
+          <h3 class="text-2xl font-display uppercase text-white mb-3 group-hover:text-primary transition-colors">Industry News</h3>
+          <p class="text-white/50 text-sm leading-relaxed mb-6">Regulations, trends, and industry developments.</p>
+          <span class="text-primary text-xs font-black uppercase tracking-widest">View Articles →</span>
+        </a>
+
+        <a href="/insights?category=community" class="group bg-white/5 backdrop-blur-sm rounded-[2rem] p-8 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/10">
+          <div class="text-5xl mb-6">🤝</div>
+          <h3 class="text-2xl font-display uppercase text-white mb-3 group-hover:text-primary transition-colors">Community</h3>
+          <p class="text-white/50 text-sm leading-relaxed mb-6">Local stories and Jackson recycling heroes.</p>
+          <span class="text-primary text-xs font-black uppercase tracking-widest">View Articles →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-24 bg-cream">
+    <div class="container">
+      <div class="bg-white rounded-[3rem] p-12 md:p-20 relative overflow-hidden" data-animate="scale-in">
+        <!-- Decorative -->
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-primary/5 -skew-x-12 hidden lg:block"></div>
+        
+        <div class="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <p class="text-primary font-black text-[10px] tracking-[0.4em] uppercase mb-4">Have Questions?</p>
+            <h2 class="text-4xl md:text-5xl font-display uppercase tracking-tighter leading-tight mb-6">
+              Talk to our <span class="text-primary italic">Experts</span>
+            </h2>
+            <p class="text-text-muted text-lg leading-relaxed mb-8">
+              Our team has over 15 years of experience in the scrap metal industry. We're happy to answer any questions about pricing, sorting, or selling your materials.
+            </p>
+            <div class="flex flex-wrap gap-4">
+              <a href="/contact" class="group inline-flex items-center gap-4 bg-secondary text-white px-8 py-4 rounded-full text-sm font-bold tracking-widest uppercase transition-all hover:bg-primary">
+                <span>Contact Us</span>
+                <span class="group-hover:translate-x-2 transition-transform">→</span>
+              </a>
+              <a href="tel:+15175551234" class="pill-link">
+                (517) 555-1234
+              </a>
+            </div>
+          </div>
+
+          <div class="flex justify-center lg:justify-end">
+            <div class="grid grid-cols-2 gap-6">
+              <div class="bg-cream rounded-2xl p-6 text-center">
+                <p class="text-4xl font-display text-primary">15+</p>
+                <p class="text-xs font-bold text-text-muted uppercase tracking-widest mt-2">Years</p>
+              </div>
+              <div class="bg-cream rounded-2xl p-6 text-center">
+                <p class="text-4xl font-display text-primary">2M+</p>
+                <p class="text-xs font-bold text-text-muted uppercase tracking-widest mt-2">Lbs Recycled</p>
+              </div>
+              <div class="bg-cream rounded-2xl p-6 text-center">
+                <p class="text-4xl font-display text-primary">5K+</p>
+                <p class="text-xs font-bold text-text-muted uppercase tracking-widest mt-2">Customers</p>
+              </div>
+              <div class="bg-cream rounded-2xl p-6 text-center">
+                <p class="text-4xl font-display text-primary">24hr</p>
+                <p class="text-xs font-bold text-text-muted uppercase tracking-widest mt-2">Response</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
