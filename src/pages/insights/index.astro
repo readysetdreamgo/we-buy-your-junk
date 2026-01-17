@@ -161,15 +161,17 @@ function formatDate(date: Date): string {
       </div>
 
       <!-- Bento Grid -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" data-stagger>
+      <div id="articles-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" data-stagger>
         {regularInsights.map((insight, index) => (
           <a 
             href={`/insights/${insight.slug}`} 
             class:list={[
-              "group bg-white rounded-[2rem] overflow-hidden card-tactile relative",
+              "article-card group bg-white rounded-[2rem] overflow-hidden card-tactile relative",
               index === 0 ? "md:col-span-2 lg:col-span-2" : "",
               index === 3 ? "lg:row-span-2" : ""
             ]}
+            data-index={index}
+            style={index >= 6 ? "display: none;" : ""}
           >
             <!-- Card Content -->
             <div class:list={[
@@ -212,8 +214,65 @@ function formatDate(date: Date): string {
           </a>
         ))}
       </div>
+
+      <!-- Load More Button -->
+      {regularInsights.length > 6 && (
+        <div class="text-center mt-16" id="load-more-container">
+          <button 
+            id="load-more-btn"
+            class="group inline-flex items-center gap-4 bg-secondary text-white px-10 py-5 rounded-full text-sm font-bold tracking-widest uppercase transition-all hover:bg-primary"
+          >
+            <span>Load More Articles</span>
+            <span class="group-hover:translate-y-1 transition-transform">↓</span>
+          </button>
+          <p class="text-text-muted text-sm mt-4">
+            Showing <span id="visible-count">6</span> of <span id="total-count">{regularInsights.length}</span> articles
+          </p>
+        </div>
+      )}
     </div>
   </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const loadMoreBtn = document.getElementById('load-more-btn');
+      const loadMoreContainer = document.getElementById('load-more-container');
+      const visibleCountEl = document.getElementById('visible-count');
+      const totalCountEl = document.getElementById('total-count');
+      const articles = document.querySelectorAll('.article-card');
+      
+      if (!loadMoreBtn || articles.length <= 6) return;
+      
+      const totalCount = articles.length;
+      let visibleCount = 6;
+      const increment = 6;
+      
+      loadMoreBtn.addEventListener('click', () => {
+        const newVisibleCount = Math.min(visibleCount + increment, totalCount);
+        
+        articles.forEach((article, index) => {
+          if (index < newVisibleCount) {
+            article.style.display = '';
+            article.style.opacity = '0';
+            article.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+              article.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+              article.style.opacity = '1';
+              article.style.transform = 'translateY(0)';
+            }, (index - visibleCount) * 100);
+          }
+        });
+        
+        visibleCount = newVisibleCount;
+        if (visibleCountEl) visibleCountEl.textContent = visibleCount.toString();
+        
+        if (visibleCount >= totalCount && loadMoreContainer) {
+          loadMoreContainer.style.display = 'none';
+        }
+      });
+    });
+  </script>
 
   <!-- Topics Section -->
   <section class="py-24 bg-secondary relative overflow-hidden">
