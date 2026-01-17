@@ -64,9 +64,9 @@ function formatDate(date: Date): string {
 
   <!-- Featured Article -->
   {featuredInsight && (
-    <section class="py-24 bg-background relative overflow-hidden">
+    <section class="py-12 md:py-24 bg-background relative overflow-hidden">
       <div class="container">
-        <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+        <div class="grid lg:grid-cols-12 gap-6 md:gap-8 items-stretch">
           <!-- Featured Image/Placeholder -->
           <div class="lg:col-span-7 relative" data-animate="fade-right">
             <a href={`/insights/${featuredInsight.slug}`} class="block aspect-[4/3] bg-secondary rounded-[2.5rem] overflow-hidden relative group">
@@ -75,18 +75,18 @@ function formatDate(date: Date): string {
                 <p class="text-white/10 font-black text-6xl italic uppercase">Featured</p>
               </div>
               <!-- Category Badge -->
-              <div class="absolute top-8 left-8 z-20">
+              <div class="absolute top-4 left-4 md:top-8 md:left-8 z-20">
                 <span class="bg-primary text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full">
                   {featuredInsight.data.category}
                 </span>
               </div>
               <!-- Content Overlay -->
-              <div class="absolute bottom-0 left-0 right-0 p-10 z-20">
-                <p class="text-white/50 text-sm mb-4">{formatDate(featuredInsight.data.pubDate)} · {featuredInsight.data.readTime}</p>
-                <h2 class="text-4xl md:text-5xl font-display uppercase text-white leading-tight mb-6 group-hover:text-primary transition-colors">
+              <div class="absolute bottom-0 left-0 right-0 p-6 md:p-10 z-20">
+                <p class="text-white/50 text-xs md:text-sm mb-2 md:mb-4">{formatDate(featuredInsight.data.pubDate)} · {featuredInsight.data.readTime}</p>
+                <h2 class="text-2xl sm:text-3xl md:text-5xl font-display uppercase text-white leading-tight mb-3 md:mb-6 group-hover:text-primary transition-colors">
                   {featuredInsight.data.title}
                 </h2>
-                <p class="text-white/70 text-lg leading-relaxed max-w-xl mb-8">
+                <p class="text-white/70 text-sm md:text-lg leading-relaxed max-w-xl mb-4 md:mb-8 line-clamp-2 md:line-clamp-none">
                   {featuredInsight.data.description}
                 </p>
                 <span class="inline-flex items-center gap-4 text-white font-black text-xs uppercase tracking-widest group-hover:text-primary transition-colors">
@@ -98,8 +98,8 @@ function formatDate(date: Date): string {
           </div>
 
           <!-- Side Stats/Info -->
-          <div class="lg:col-span-5 flex flex-col gap-6" data-stagger>
-            <div class="bg-cream rounded-[2rem] p-10 flex-1 flex flex-col justify-between card-tactile">
+          <div class="lg:col-span-5 flex flex-col gap-4 md:gap-6" data-stagger>
+            <div class="bg-cream rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-10 flex-1 flex flex-col justify-between card-tactile">
               <div>
                 <p class="text-primary font-black text-[10px] tracking-[0.3em] uppercase mb-4">Why Read Our Insights?</p>
                 <h3 class="text-2xl font-display uppercase mb-4 leading-tight">Stay Ahead of the Market</h3>
@@ -112,7 +112,7 @@ function formatDate(date: Date): string {
               </div>
             </div>
 
-            <div class="bg-primary/10 rounded-[2rem] p-10 card-tactile">
+            <div class="bg-primary/10 rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-10 card-tactile">
               <p class="text-primary font-black text-[10px] tracking-[0.3em] uppercase mb-4">Newsletter</p>
               <h3 class="text-xl font-display uppercase mb-4 leading-tight">Get Insights Delivered</h3>
               <p class="text-text-muted text-sm leading-relaxed mb-6">
