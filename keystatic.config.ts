@@ -2,8 +2,10 @@ import { config, fields, collection } from '@keystatic/core';
 
 export default config({
   storage: {
-    kind: 'github',
-    repo: 'readysetdreamgo/we-buy-your-junk',
+    kind: 'cloud',
+  },
+  cloud: {
+    project: 'lts-tech/we-buy-your-junk',
   },
   ui: {
     brand: {
